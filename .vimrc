@@ -8,6 +8,8 @@ set mouse=a
 set incsearch
 set confirm
 set number
+set clipboard=unnamedplus
+set relativenumber
 set ignorecase
 set smartcase
 set wildmenu
@@ -45,7 +47,12 @@ Plug 'preservim/nerdcommenter'
 Plug 'puremourning/vimspector'
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 Plug 'mhartington/oceanic-next'
+Plug 'joshdick/onedark.vim'
 Plug 'maxmellon/vim-jsx-pretty'
+Plug 'tribela/vim-transparent'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 
@@ -54,10 +61,10 @@ let g:vimspector_enable_mappings = 'HUMAN'
 
 " set colorscheme
 " Material
-let g:airline_theme = 'material'
-let g:material_terminal_italics = 1
-let g:material_theme_style = 'palenight'
-colorscheme material
+"let g:airline_theme = 'material'
+"let g:material_terminal_italics = 1
+"let g:material_theme_style = 'palenight'
+"colorscheme material
 
 " OceanicNext
 "syntax on
@@ -65,11 +72,13 @@ colorscheme material
 "let g:oceanic_next_terminal_italic = 1
 "colorscheme OceanicNext
 
+colorscheme onedark
+
 " jistr/vim-nerdtree-tabs
 "  Open/close NERDTree Tabs with \t
 nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
 " To have NERDTree always open on startup
-let g:nerdtree_tabs_open_on_console_startup = 1
+" let g:nerdtree_tabs_open_on_console_startup = 1
 
 :imap jj <Esc>
 :cmap jj <Esc> 
@@ -371,3 +380,26 @@ autocmd BufNewFile *.cpp normal 8G
 " template init for html files
 autocmd BufNewFile *.html 0read ~/Documents/templates/init.html
 autocmd BufNewFile *.html normal 7G 5l 
+
+" vim-transparent
+" default
+let g:transparent_groups = ['Normal', 'Comment', 'Constant', 'Special', 'Identifier',
+                            \ 'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String',
+                            \ 'Function', 'Conditional', 'Repeat', 'Operator', 'Structure',
+                            \ 'LineNr', 'NonText', 'SignColumn', 'CursorLineNr', 'EndOfBuffer']
+augroup transparent
+    autocmd VimEnter,ColorScheme * call MyTransparent()
+augroup END
+
+function! MyTransparent()
+    " Customize the highlight groups for transparency in here.
+
+    " CursorLine
+    hi CursorLine ctermfg=NONE ctermbg=NONE guibg=NONE guibg=NONE
+
+    " coc.nvim
+    hi CocMenuSel ctermbg=NONE guibg=NONE
+endfunction
+
+" fzf.vim
+nnoremap <leader>ff :Files<CR>
